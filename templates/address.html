@@ -1,0 +1,40 @@
+<html>
+<head>
+    <style>
+        hr { border-color: #cccccc; margin: 0; }
+        .no-margins { margin: 0px; }
+        .with-margins { margin: 10px; }
+        .col-centered { float: none; margin: 0 auto; }
+        table, th, td {
+                border: 1px solid black;
+        }
+        th, td {
+                padding: 4px;
+        }
+    </style>
+</head>
+
+<h1>Yap RaiBlocks Explorer</h1>
+<p>Valid address</p>
+<p>{{address}}</p>
+<br>
+<br>
+<table>
+<tr>
+<th>Type</th>
+<th>Account</th>
+<th>Amount (XRB)</th>
+<th>Block Hash</th>
+</tr>
+{% for item in items %}
+<tr>
+	<td>{{item.type}}</td>
+	<td><a href='/search/{{item.account}}'>{{item.account}}</a></td>
+	<td>{{item.amount}}</td>
+	<td><a href='/search/{{item.hash}}'>{{item.hash[:6]}}...</a></td>
+</tr>
+{% endfor %}
+</table>
+<br>
+<p><a href='/'>Go back to Start Page</a></p>
+</html>
