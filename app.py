@@ -71,7 +71,26 @@ def search(address=None):
 
 	elif len(address) is 64:
 		block = address
-		return render_template('block.html', block=block)
+		block_data = { "action": "block", "hash" : block }
+		parsed_json = wallet_com(block_data)
+		print(parsed_json)
+		new_data = json.loads(parsed_json['contents'])
+		print(new_data['type'])
+
+		block_data = { "action": "block_account", "hash" : block }
+		parsed_json = wallet_com(block_data)
+		print(parsed_json)
+		if new_data['type'] == 'receive':
+			return render_template('block.html', block=block, type=new_data['type'],
+				source=new_data['source'], work=new_data['work'],
+				previous=new_data['previous'], signature=new_data['signature'],
+				account=parsed_json['account'])
+		else:
+			return render_template('block.html', block=block, type=new_data['type'],
+				work=new_data['work'], destination=new_data['destination'],
+				previous=new_data['previous'], signature=new_data['signature'],
+				balance=new_data['balance'], account=parsed_json['account'])
+
 	else:
 		return render_template('error.html', error=address)
 
